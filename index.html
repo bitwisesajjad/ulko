@@ -1866,6 +1866,7 @@
         $("window-content").innerHTML = "";
         $("analyze-btn").disabled = false;
         $("analyze-btn").textContent = "Check my safety";
+        setBar("wind", 0); setBar("humidity", 0); setBar("gear", 0);
         return;
       }
 
@@ -2137,7 +2138,8 @@
 
     // ── SUBMIT ────────────────────────────────────────────────────────
     async function onAnalyze(forcedOutfit) {
-      const outfit = forcedOutfit || $("gear-input").value.trim();
+      const typed = $("gear-input").value.trim();
+      const outfit = typed || (typeof forcedOutfit === "string" ? forcedOutfit : "");
       const hasPhoto = !!currentPhotoB64;
 
       // Require either text or photo
