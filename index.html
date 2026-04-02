@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -7,7 +8,9 @@
   <title>Ulko — Know before you go.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg: #081018;
@@ -27,20 +30,26 @@
       --danger: #ef4444;
       --neutral: #94a3b8;
       --radius: 22px;
-      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       color: var(--text);
       font-family: Inter, system-ui, sans-serif;
       background:
-        radial-gradient(circle at 10% 0%, rgba(56,189,248,0.12), transparent 28%),
-        radial-gradient(circle at 90% 100%, rgba(45,212,191,0.08), transparent 28%),
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.12), transparent 28%),
+        radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.08), transparent 28%),
         linear-gradient(180deg, #071018 0%, #09121c 48%, #081018 100%);
       overflow-x: hidden;
     }
@@ -50,14 +59,21 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(120deg, transparent 0%, rgba(125,211,252,0.03) 35%, transparent 70%);
+      background: linear-gradient(120deg, transparent 0%, rgba(125, 211, 252, 0.03) 35%, transparent 70%);
       animation: aurora 12s ease-in-out infinite alternate;
       z-index: 0;
     }
 
     @keyframes aurora {
-      from { transform: translateX(-4%) translateY(-1%) skewY(-1deg); opacity: .7; }
-      to   { transform: translateX(4%) translateY(1%) skewY(1deg); opacity: 1; }
+      from {
+        transform: translateX(-4%) translateY(-1%) skewY(-1deg);
+        opacity: .7;
+      }
+
+      to {
+        transform: translateX(4%) translateY(1%) skewY(1deg);
+        opacity: 1;
+      }
     }
 
     .app {
@@ -77,26 +93,39 @@
     }
 
     .brand-icon {
-      width: 50px; height: 50px;
+      width: 50px;
+      height: 50px;
       border-radius: 18px;
       background:
-        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.16), transparent 28%),
-        linear-gradient(135deg, rgba(125,211,252,0.22), rgba(56,189,248,0.08));
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, rgba(125, 211, 252, 0.22), rgba(56, 189, 248, 0.08));
       border: 1px solid var(--border-strong);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.08),
-        0 8px 24px rgba(56,189,248,0.12),
-        0 0 0 1px rgba(125,211,252,0.04);
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 24px rgba(56, 189, 248, 0.12),
+        0 0 0 1px rgba(125, 211, 252, 0.04);
       display: grid;
       place-items: center;
       flex-shrink: 0;
       backdrop-filter: blur(14px);
     }
 
-    .brand-icon svg { width: 24px; height: 24px; filter: drop-shadow(0 0 10px rgba(125,211,252,0.22)); }
-    .brand-copy { min-width: 0; }
+    .brand-icon svg {
+      width: 24px;
+      height: 24px;
+      filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.22));
+    }
 
-    .brand-wordmark { display: flex; align-items: baseline; gap: 8px; line-height: 1; }
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-wordmark {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1;
+    }
 
     .brand-wordmark strong {
       font-size: clamp(1.8rem, 7vw, 2.35rem);
@@ -104,7 +133,10 @@
       font-weight: 800;
     }
 
-    .brand-wordmark strong span { color: var(--ice); text-shadow: 0 0 14px rgba(125,211,252,0.34); }
+    .brand-wordmark strong span {
+      color: var(--ice);
+      text-shadow: 0 0 14px rgba(125, 211, 252, 0.34);
+    }
 
     .brand-badge {
       font: 700 0.66rem/1 "Space Mono", monospace;
@@ -117,8 +149,16 @@
       white-space: nowrap;
     }
 
-    .tagline { margin-top: 6px; color: var(--text-dim); font-size: 0.92rem; }
-    .stack { display: grid; gap: 14px; }
+    .tagline {
+      margin-top: 6px;
+      color: var(--text-dim);
+      font-size: 0.92rem;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
 
     .card {
       position: relative;
@@ -131,33 +171,72 @@
       transition: transform 0.18s ease, border-color 0.18s ease;
     }
 
-    .card:active { transform: scale(0.992); }
+    .card:active {
+      transform: scale(0.992);
+    }
 
     .card::before {
       content: "";
       position: absolute;
       inset: 0 0 auto 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(125,211,252,0.45), transparent);
+      background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.45), transparent);
       opacity: 0.75;
     }
 
-    .card-inner { padding: 18px; }
+    .card-inner {
+      padding: 18px;
+    }
 
     .eyebrow {
       font: 700 0.68rem/1 "Space Mono", monospace;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: var(--text-muted);
+      color: var(--text-dim);
       margin-bottom: 14px;
     }
 
-    .select-wrap { position: relative; }
-    select, textarea, button { font: inherit; }
+    .live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      margin-right: 7px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      animation: livePulse 2s ease-in-out infinite;
+    }
 
-    .field, .select {
+    @keyframes livePulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+      }
+
+      50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0);
+      }
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    .field,
+    .select {
       width: 100%;
-      border: 1px solid rgba(125,211,252,0.12);
+      border: 1px solid rgba(125, 211, 252, 0.12);
       background: rgba(7, 14, 22, 0.68);
       color: var(--text);
       border-radius: 16px;
@@ -166,30 +245,40 @@
       transition: border-color 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .select { appearance: none; padding-right: 48px; font-weight: 600; }
+    .select {
+      appearance: none;
+      padding-right: 48px;
+      font-weight: 600;
+    }
 
     .select-wrap::after {
       content: "▾";
       position: absolute;
-      right: 16px; top: 50%;
+      right: 16px;
+      top: 50%;
       transform: translateY(-50%);
       color: var(--text-dim);
       pointer-events: none;
       font-size: 1rem;
     }
 
-    .field:focus, .select:focus {
+    .field:focus,
+    .select:focus {
       border-color: var(--ice-strong);
-      box-shadow: 0 0 0 3px rgba(56,189,248,0.14);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
     }
 
-    .weather-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .weather-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
 
     .weather-item {
       padding: 14px;
       border-radius: 18px;
       background: rgba(7, 14, 22, 0.58);
-      border: 1px solid rgba(125,211,252,0.1);
+      border: 1px solid rgba(125, 211, 252, 0.1);
     }
 
     .weather-label {
@@ -200,16 +289,35 @@
       margin-bottom: 8px;
     }
 
-    .weather-value { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.04em; }
-    .weather-sub   { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
-    .weather-sub.live { color: var(--success); }
-    .weather-sub.demo { color: var(--warning); }
+    .weather-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
 
-    .activity-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .weather-sub {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .weather-sub.live {
+      color: var(--success);
+    }
+
+    .weather-sub.demo {
+      color: var(--warning);
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
 
     .activity-btn {
       min-height: 82px;
-      border: 1px solid rgba(125,211,252,0.12);
+      border: 1px solid rgba(125, 211, 252, 0.12);
       border-radius: 18px;
       background: rgba(7, 14, 22, 0.58);
       color: var(--text-dim);
@@ -223,24 +331,50 @@
       transition: all 0.18s ease;
     }
 
-    .activity-btn span { display: block; margin-bottom: 4px; }
-    .activity-btn span svg { width: 26px; height: 26px; display: block; margin: 0 auto; }
+    .activity-btn span {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .activity-btn span svg {
+      width: 26px;
+      height: 26px;
+      display: block;
+      margin: 0 auto;
+    }
 
     .activity-btn.active {
       color: var(--ice);
-      border-color: rgba(56,189,248,0.5);
-      background: linear-gradient(180deg, rgba(56,189,248,0.12), rgba(56,189,248,0.06));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(56,189,248,0.06);
+      border-color: rgba(56, 189, 248, 0.5);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.12), rgba(56, 189, 248, 0.06));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 0 1px rgba(56, 189, 248, 0.06);
     }
 
-    .helper { margin-top: 10px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.45; }
+    .helper {
+      margin-top: 10px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
 
-    textarea.field { min-height: 132px; resize: vertical; line-height: 1.55; }
+    textarea.field {
+      min-height: 132px;
+      resize: vertical;
+      line-height: 1.55;
+    }
 
-    .results { display: grid; gap: 14px; }
-    .hidden  { display: none; }
+    .results {
+      display: grid;
+      gap: 14px;
+    }
 
-    .risk-wrap { text-align: center; }
+    .hidden {
+      display: none;
+    }
+
+    .risk-wrap {
+      text-align: center;
+    }
 
     .risk-chip {
       display: inline-flex;
@@ -256,19 +390,61 @@
       border: 1px solid transparent;
     }
 
-    .risk-low      { color: var(--success); border-color: rgba(34,197,94,0.28);   background: rgba(34,197,94,0.10); }
-    .risk-moderate { color: var(--warning); border-color: rgba(245,158,11,0.28);  background: rgba(245,158,11,0.10); }
-    .risk-high     { color: #f97316; border-color: rgba(249,115,22,0.35); background: rgba(249,115,22,0.12); }
-    .risk-extreme  { color: #ef4444; border-color: rgba(239,68,68,0.35);  background: rgba(239,68,68,0.12); }
+    .risk-low {
+      color: var(--success);
+      border-color: rgba(34, 197, 94, 0.28);
+      background: rgba(34, 197, 94, 0.10);
+    }
+
+    .risk-moderate {
+      color: var(--warning);
+      border-color: rgba(245, 158, 11, 0.28);
+      background: rgba(245, 158, 11, 0.10);
+    }
+
+    .risk-high {
+      color: #f97316;
+      border-color: rgba(249, 115, 22, 0.35);
+      background: rgba(249, 115, 22, 0.12);
+    }
+
+    .risk-extreme {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .risk-location {
+      font: 400 0.72rem/1 "Space Mono", monospace;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+
     .risk-chip::before {
       content: "●";
       margin-right: 8px;
       font-size: 0.7em;
     }
-    .risk-chip.risk-low::before      { color: #22c55e; }
-    .risk-chip.risk-moderate::before { color: #f59e0b; }
-    .risk-chip.risk-high::before     { color: #f97316; }
-    .risk-chip.risk-extreme::before  { content: "⚠"; font-size: 1em; color: #ef4444; }
+
+    .risk-chip.risk-low::before {
+      color: #22c55e;
+    }
+
+    .risk-chip.risk-moderate::before {
+      color: #f59e0b;
+    }
+
+    .risk-chip.risk-high::before {
+      color: #f97316;
+    }
+
+    .risk-chip.risk-extreme::before {
+      content: "⚠";
+      font-size: 1em;
+      color: #ef4444;
+    }
+
     .timer-label {
       color: var(--text-muted);
       font: 700 0.7rem/1 "Space Mono", monospace;
@@ -282,16 +458,99 @@
       letter-spacing: -0.06em;
     }
 
-    .timer.pulse { animation: pulse 1s ease-in-out infinite; }
-    .timer.extreme { color: #ef4444; }
+    .timer.pulse {
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .timer.extreme {
+      color: #ef4444;
+    }
+
+    .timer-start-btn {
+      margin-top: 14px;
+      background: rgba(125, 211, 252, 0.08);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      color: var(--ice);
+      font: 700 0.85rem/1 "Space Mono", monospace;
+      letter-spacing: 0.1em;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: none;
+    }
+
+    .timer-start-btn:hover {
+      background: rgba(125, 211, 252, 0.15);
+    }
+
+    .timer-start-btn.running {
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .share-btn {
+      margin-top: 10px;
+      margin-left: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-muted);
+      font: 700 0.85rem/1 "Space Mono", monospace;
+      letter-spacing: 0.1em;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: none;
+    }
+
+    .share-btn:hover {
+      border-color: var(--ice-dim);
+      color: var(--ice);
+    }
+
+    @keyframes alarm {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      25% {
+        opacity: 0.3;
+        transform: scale(0.98);
+      }
+
+      75% {
+        opacity: 0.7;
+        transform: scale(1.01);
+      }
+    }
+
+    .timer-alarming {
+      animation: alarm 0.6s ease-in-out infinite;
+    }
 
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.62; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.62;
+      }
     }
 
-    .summary, .gaps { line-height: 1.6; font-size: 0.98rem; }
+    .summary,
+    .gaps {
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
 
     .gaps {
       margin-top: 12px;
@@ -303,6 +562,12 @@
     }
 
     .gaps:empty { display: none; }
+    .gaps:not(:empty)::before {
+      content: "Warning: ";
+      font-weight: 700;
+      color: #f59e0b;
+    }
+
     .recommendation {
       margin-top: 12px;
       padding: 12px 14px;
@@ -313,12 +578,21 @@
       font-size: 0.92rem;
       line-height: 1.6;
     }
-    .recommendation:empty { display: none; }
-    .recommendation::before {
-      content: "💡 ";
+
+    .recommendation:empty {
+      display: none;
     }
 
-    .bars { display: grid; gap: 12px; }
+    .recommendation::before {
+      content: "Suggestion: ";
+      font-weight: 700;
+      color: var(--ice-strong);
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+    }
 
     .bar-row {
       display: grid;
@@ -327,7 +601,11 @@
       align-items: center;
     }
 
-    .bar-row label { font-size: 0.82rem; color: var(--text-dim); font-family: "Space Mono", monospace; }
+    .bar-row label {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      font-family: "Space Mono", monospace;
+    }
 
     .track {
       width: 100%;
@@ -335,13 +613,27 @@
       border-radius: 999px;
       overflow: hidden;
       background: rgba(7, 14, 22, 0.74);
-      border: 1px solid rgba(125,211,252,0.08);
+      border: 1px solid rgba(125, 211, 252, 0.08);
     }
 
-    .fill { height: 100%; width: 0; border-radius: inherit; transition: width 0.8s cubic-bezier(.2,.8,.2,1); }
-    .fill.wind     { background: linear-gradient(90deg, #38bdf8, #7dd3fc); }
-    .fill.humidity { background: linear-gradient(90deg, #818cf8, #a5b4fc); }
-    .fill.gear     { background: linear-gradient(90deg, #34d399, #6ee7b7); }
+    .fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      transition: width 0.8s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .fill.wind {
+      background: linear-gradient(90deg, #38bdf8, #7dd3fc);
+    }
+
+    .fill.humidity {
+      background: linear-gradient(90deg, #818cf8, #a5b4fc);
+    }
+
+    .fill.gear {
+      background: linear-gradient(90deg, #34d399, #6ee7b7);
+    }
 
     .window-track {
       display: grid;
@@ -351,7 +643,7 @@
     }
 
     .window-block {
-      height: 34px;
+      height: 40px;
       border-radius: 10px;
       border: 1px solid transparent;
       position: relative;
@@ -359,7 +651,20 @@
       transition: transform 0.15s ease;
     }
 
-    .window-block:hover { transform: scaleY(1.12); }
+    .window-block:hover {
+      transform: scaleY(1.12);
+    }
+
+    .window-hour {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 700 0.62rem/1 "Space Mono", monospace;
+      color: rgba(255, 255, 255, 0.75);
+      pointer-events: none;
+    }
 
     .window-block::after {
       content: attr(data-tip);
@@ -380,22 +685,41 @@
       z-index: 10;
       pointer-events: none;
     }
+
     .window-block:first-child::after {
       left: 0;
       transform: none;
     }
+
     .window-block:last-child::after {
       left: auto;
       right: 0;
       transform: none;
     }
 
-    .window-block:hover::after { display: block; }
+    .window-block:hover::after {
+      display: block;
+    }
 
-    .window-block.low      { background: rgba(34,197,94,0.35);   border-color: rgba(34,197,94,0.2); }
-    .window-block.moderate { background: rgba(245,158,11,0.35);  border-color: rgba(245,158,11,0.2); }
-    .window-block.high     { background: rgba(249,115,22,0.45); border-color: rgba(249,115,22,0.3); }
-    .window-block.extreme  { background: rgba(239,68,68,0.55);  border-color: rgba(239,68,68,0.45); }
+    .window-block.low {
+      background: rgba(34, 197, 94, 0.35);
+      border-color: rgba(34, 197, 94, 0.2);
+    }
+
+    .window-block.moderate {
+      background: rgba(245, 158, 11, 0.35);
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .window-block.high {
+      background: rgba(249, 115, 22, 0.45);
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .window-block.extreme {
+      background: rgba(239, 68, 68, 0.55);
+      border-color: rgba(239, 68, 68, 0.45);
+    }
 
     .window-labels {
       display: grid;
@@ -412,12 +736,14 @@
       font: 400 0.72rem/1.4 "Space Mono", monospace;
       color: var(--text-muted);
     }
+
     .window-best {
       margin-top: 10px;
       margin-bottom: 4px;
       font: 400 0.78rem/1.4 "Space Mono", monospace;
       color: var(--ice);
     }
+
     .window-best strong {
       color: var(--text);
     }
@@ -432,11 +758,12 @@
 
     .bottom-bar {
       position: fixed;
-      left: 50%; bottom: 0;
+      left: 50%;
+      bottom: 0;
       transform: translateX(-50%);
       width: min(100%, 480px);
-      padding: 12px 16px calc(12px + var(--safe-bottom));
-      background: linear-gradient(180deg, rgba(8,16,24,0.1), rgba(8,16,24,0.92) 26%);
+      padding: 12px 16px calc(20px + var(--safe-bottom));
+      background: linear-gradient(180deg, rgba(8, 16, 24, 0.1), rgba(8, 16, 24, 0.92) 26%);
       backdrop-filter: blur(18px);
       z-index: 20;
     }
@@ -452,11 +779,14 @@
       letter-spacing: 0.02em;
       cursor: pointer;
       background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 55%, #0ea5e9 100%);
-      box-shadow: 0 8px 24px rgba(56,189,248,0.28), inset 0 1px 0 rgba(255,255,255,0.35);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
       transition: opacity 0.18s ease;
     }
 
-    .cta:disabled { opacity: 0.65; cursor: not-allowed; }
+    .cta:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
 
     .loading {
       color: var(--text-muted);
@@ -466,26 +796,46 @@
     }
 
     @keyframes fadePulse {
-      0%, 100% { opacity: 0.4; }
-      50%       { opacity: 1; }
+
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
 
-    .tiny { font-size: 0.8rem; color: var(--text-muted); }
+    .tiny {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
 
     @media (min-width: 481px) {
-      .app           { padding-top: 24px; }
-      .activity-grid { grid-template-columns: repeat(4, 1fr); }
-      .weather-grid  { grid-template-columns: repeat(4, 1fr); }
+      .app {
+        padding-top: 24px;
+      }
+
+      .activity-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .weather-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="app">
     <header class="topbar">
       <div class="brand-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none">
-          <path d="M12 2v20M4.93 6l14.14 12M4.93 18L19.07 6M2 12h20" stroke="#7dd3fc" stroke-width="1.8" stroke-linecap="round"/>
-          <circle cx="12" cy="12" r="2.4" fill="#7dd3fc"/>
+          <path d="M12 2v20M4.93 6l14.14 12M4.93 18L19.07 6M2 12h20" stroke="#7dd3fc" stroke-width="1.8"
+            stroke-linecap="round" />
+          <circle cx="12" cy="12" r="2.4" fill="#7dd3fc" />
         </svg>
       </div>
       <div class="brand-copy">
@@ -509,7 +859,7 @@
       </article>
       <article class="card">
         <div class="card-inner">
-          <div class="eyebrow">Live Conditions</div>
+          <div class="eyebrow"><span class="live-dot"></span>Live Conditions</div>
           <div id="weather-content" class="loading">Fetching weather data...</div>
         </div>
       </article>
@@ -560,18 +910,14 @@
             </button>
 
           </div>
-          <div class="helper">Choose your activity so the exposure estimate reflects how much heat your body is generating.</div>
         </div>
       </article>
 
       <article class="card">
         <div class="card-inner">
           <div class="eyebrow">AI Gear Coach</div>
-          <textarea
-            class="field"
-            id="gear-input"
-            placeholder="Describe your full outfit — base layers, mid layers, outer shell, and don't forget hands, head, and feet. Example: wool base layer, fleece mid layer, waterproof parka, jeans, wool socks, winter boots, no gloves, no hat."
-          ></textarea>
+          <textarea class="field" id="gear-input"
+            placeholder="Describe your outfit — layers, jacket, gloves, hat, boots. Example: wool base layer, fleece, winter parka, jeans, winter boots, no gloves."></textarea>
         </div>
       </article>
 
@@ -581,8 +927,11 @@
           <div class="card-inner risk-wrap">
             <div class="eyebrow">Risk Assessment</div>
             <div id="risk-chip" class="risk-chip risk-low">—</div>
+            <div id="risk-location" class="risk-location"></div>
             <div class="timer-label">Safe exposure time remaining</div>
             <div id="timer" class="timer">--:--</div>
+            <button id="timer-start-btn" class="timer-start-btn">▶ Start countdown</button>
+            <button id="share-btn" class="share-btn">↗ Share result</button>
           </div>
         </article>
 
@@ -601,17 +950,23 @@
             <div class="bars">
               <div class="bar-row">
                 <label>Wind Chill</label>
-                <div class="track"><div id="bar-wind" class="fill wind"></div></div>
+                <div class="track">
+                  <div id="bar-wind" class="fill wind"></div>
+                </div>
                 <div id="pct-wind" class="tiny">0%</div>
               </div>
               <div class="bar-row">
                 <label>Humidity</label>
-                <div class="track"><div id="bar-humidity" class="fill humidity"></div></div>
+                <div class="track">
+                  <div id="bar-humidity" class="fill humidity"></div>
+                </div>
                 <div id="pct-humidity" class="tiny">0%</div>
               </div>
               <div class="bar-row">
                 <label>Gear gap</label>
-                <div class="track"><div id="bar-gear" class="fill gear"></div></div>
+                <div class="track">
+                  <div id="bar-gear" class="fill gear"></div>
+                </div>
                 <div id="pct-gear" class="tiny">0%</div>
               </div>
             </div>
@@ -637,35 +992,32 @@
   </main>
 
   <div class="bottom-bar">
-    <button id="analyze-btn" class="cta">Analyze my gear</button>
+    <button id="analyze-btn" class="cta">Check my safety</button>
   </div>
   <script>
     const CONFIG = {
       OPENWEATHER_KEY: "8c5e72318d6d2455134f988b3da1e11c",
-      ANTHROPIC_KEY:   "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",
+      ANTHROPIC_KEY: "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",
     };
 
     const LOCATIONS = [
-      { name: "Salla — Wilderness Park (Pitch Venue)", lat: 66.8333, lon: 28.6667 },
-      { name: "Salla — Sallatunturi Fell",             lat: 67.1667, lon: 28.7000 },
-      { name: "Oulu — City Center",                    lat: 65.0121, lon: 25.4651 },
-      { name: "Oulu — Nallikari Beach",                lat: 65.0333, lon: 25.3833 },
-      { name: "Oulu — Linnanmaa (University)",         lat: 65.0595, lon: 25.4662 },
-      { name: "Oulu — Hupisaaret Park",                lat: 65.0167, lon: 25.4667 },
-      { name: "Oulu — Airport",                        lat: 64.9301, lon: 25.3543 },
-      { name: "Rovaniemi — Santa Claus Village",       lat: 66.5436, lon: 25.8472 },
-      { name: "Rovaniemi — Ounasvaara Hill",           lat: 66.5167, lon: 25.7667 },
-      { name: "Rovaniemi — City Center",               lat: 66.5039, lon: 25.7294 },
+      { name: "Salla — Wilderness Park", lat: 66.8333, lon: 28.6667 },
+      { name: "Oulu — Linnanmaa (University)", lat: 65.0595, lon: 25.4662 },
+      { name: "Rovaniemi — Santa Claus Village", lat: 66.5436, lon: 25.8472 },
+      { name: "Helsinki", lat: 60.1699, lon: 24.9384 },
+      { name: "Levi — Ski Resort", lat: 67.8044, lon: 24.8073 },
+      { name: "Saariselkä — Aurora Zone", lat: 68.4195, lon: 27.4170 },
+      { name: "Kemi — Frozen Sea", lat: 65.7364, lon: 24.5637 },
     ];
 
     const ACTIVITY_LABELS = { stationary: "stationary", walking: "walking", cycling: "cycling", vigorous: "vigorous outdoor activity" };
     const ACTIVITY_OFFSETS = { stationary: 0, walking: 2, cycling: 3, vigorous: 4 };
-    const FALLBACK_WEATHER = { temp: -12.0, wind: 5.1, humidity: 84, feels: -18.6 };
+    const FALLBACK_WEATHER = { temp: -12.0, wind: 5.1, humidity: 84, feelsLike: -18.6 };
 
     let selectedLocation = LOCATIONS[0];
     let selectedActivity = "stationary";
-    let currentWeather   = null;
-    let timerInterval    = null;
+    let currentWeather = null;
+    let timerInterval = null;
     let lastAnalyzedClo = 1.5; // updated after each analysis
 
 
@@ -708,7 +1060,7 @@
       $("weather-content").innerHTML = '<div class="loading">Fetching weather data...</div>';
       const { lat, lon } = selectedLocation;
       try {
-        const res  = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric`);
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric`);
         const data = await res.json();
         if (!res.ok || data.cod === 401) throw new Error("key not active");
         currentWeather = { temp: data.main.temp, wind: data.wind.speed, humidity: data.main.humidity, feelsLike: data.main.feels_like };
@@ -752,38 +1104,38 @@
       const { temp, wind, humidity } = weather;
       const vKmh = wind * 3.6;
       const v016 = Math.pow(Math.max(vKmh, 0.1), 0.16);
-      const wc   = 13.12 + 0.6215 * temp - 11.37 * v016 + 0.3965 * temp * v016;
+      const wc = 13.12 + 0.6215 * temp - 11.37 * v016 + 0.3965 * temp * v016;
       // Apply wind chill for any temp below 10°C with meaningful wind
-      const windChill  = (temp < 10 && vKmh > 3) ? wc : temp;
+      const windChill = (temp < 10 && vKmh > 3) ? wc : temp;
       const humPenalty = humidity > 70 ? (humidity - 70) * 0.18 : 0;
-      const actBonus   = ACTIVITY_OFFSETS[activity] || 0;
-      const effTemp    = windChill - humPenalty + actBonus;
+      const actBonus = ACTIVITY_OFFSETS[activity] || 0;
+      const effTemp = windChill - humPenalty + actBonus;
 
       // Tighter base exposure times — realistic cold physiology
       let base;
-      if      (effTemp >= 10)  base = 999;  // genuinely warm
-      else if (effTemp >= 5)   base = 240;  // cool, low risk with any gear
-      else if (effTemp >= 0)   base = 120;  // cold, gear matters
-      else if (effTemp >= -5)  base = 75;   // clearly cold
+      if (effTemp >= 10) base = 999;  // genuinely warm
+      else if (effTemp >= 5) base = 240;  // cool, low risk with any gear
+      else if (effTemp >= 0) base = 120;  // cold, gear matters
+      else if (effTemp >= -5) base = 75;   // clearly cold
       else if (effTemp >= -10) base = 45;   // serious cold
       else if (effTemp >= -20) base = 25 + (effTemp + 20) * 2;
-      else                     base = Math.max(5, 15 + (effTemp + 30));
+      else base = Math.max(5, 15 + (effTemp + 30));
 
-      const refClo    = 1.5;
+      const refClo = 1.5;
       const gearRatio = Math.max(0.2, clo / refClo);
-      const safeMin   = Math.min(999, Math.round(base * gearRatio));
+      const safeMin = Math.min(999, Math.round(base * gearRatio));
 
       const tier = tierFromMinutes(safeMin);
 
       // SHAP — danger contributions
       const windContrib = Math.max(0, temp - windChill);
-      const humContrib  = humPenalty;
+      const humContrib = humPenalty;
       const gearContrib = Math.max(0, refClo - clo) * 8;
       const total = windContrib + humContrib + gearContrib + 0.01;
-      const shap  = {
-        wind:     Math.round(windContrib / total * 100),
-        humidity: Math.round(humContrib  / total * 100),
-        gear:     Math.round(gearContrib / total * 100),
+      const shap = {
+        wind: Math.round(windContrib / total * 100),
+        humidity: Math.round(humContrib / total * 100),
+        gear: Math.round(gearContrib / total * 100),
       };
       shap.wind += 100 - shap.wind - shap.humidity - shap.gear;
 
@@ -791,34 +1143,34 @@
     }
 
     function tierFromMinutes(safeMin) {
-      if (safeMin >= 120) return { level: "Low",      cls: "low",      emoji: "" };
-      if (safeMin >= 45)  return { level: "Moderate",  cls: "moderate", emoji: "" };
-      if (safeMin >= 15)  return { level: "High",      cls: "high",     emoji: "" };
-      return                     { level: "Extreme",   cls: "extreme",  emoji: "" };
+      if (safeMin >= 120) return { level: "Low", cls: "low", emoji: "" };
+      if (safeMin >= 45) return { level: "Moderate", cls: "moderate", emoji: "" };
+      if (safeMin >= 15) return { level: "High", cls: "high", emoji: "" };
+      return { level: "Extreme", cls: "extreme", emoji: "" };
     }
 
     // ── LOCAL GEAR FALLBACK ───────────────────────────────────────────
     function estimateGearLocally(text, weather, activity) {
       const t = text.toLowerCase();
       let clo = 0.5; // start lower — a base outfit without explicit layers
-      if (/(wool|thermal|base layer)/.test(t))                   clo += 0.35;
-      if (/(fleece|mid layer|hoodie|sweater)/.test(t))           clo += 0.40;
+      if (/(wool|thermal|base layer)/.test(t)) clo += 0.35;
+      if (/(fleece|mid layer|hoodie|sweater)/.test(t)) clo += 0.40;
       if (/(down|parka|winter jacket|insulated jacket)/.test(t)) clo += 0.90;
-      if (/(shell|waterproof|windproof)/.test(t))                clo += 0.25;
-      if (/(hat|beanie|balaclava)/.test(t))                      clo += 0.18;
-      if (/(gloves|mittens)/.test(t))                            clo += 0.22;
-      if (/(wool socks|thermal socks)/.test(t))                  clo += 0.15;
-      if (/(winter boots|insulated boots)/.test(t))              clo += 0.25;
-      if (/(shorts)/.test(t))                                    clo -= 0.30;
-      if (/(jeans)/.test(t))                                     clo -= 0.10;
-      if (/(sneakers|trainers)/.test(t))                         clo -= 0.15;
-      if (/(no gloves|no hat|no jacket)/.test(t))                clo -= 0.20;
+      if (/(shell|waterproof|windproof)/.test(t)) clo += 0.25;
+      if (/(hat|beanie|balaclava)/.test(t)) clo += 0.18;
+      if (/(gloves|mittens)/.test(t)) clo += 0.22;
+      if (/(wool socks|thermal socks)/.test(t)) clo += 0.15;
+      if (/(winter boots|insulated boots)/.test(t)) clo += 0.25;
+      if (/(shorts)/.test(t)) clo -= 0.30;
+      if (/(jeans)/.test(t)) clo -= 0.10;
+      if (/(sneakers|trainers)/.test(t)) clo -= 0.15;
+      if (/(no gloves|no hat|no jacket)/.test(t)) clo -= 0.20;
       clo = Math.max(0.1, Math.min(4.0, +clo.toFixed(2)));
 
       const missing = [];
       if (!/(hat|beanie|balaclava|hood)/.test(t)) missing.push("head");
-      if (!/(gloves|mittens)/.test(t))             missing.push("hands");
-      if (!/(winter boots|boots)/.test(t))         missing.push("feet");
+      if (!/(gloves|mittens)/.test(t)) missing.push("hands");
+      if (!/(winter boots|boots)/.test(t)) missing.push("feet");
       if (!/(trousers|pants|jeans|leggings)/.test(t)) missing.push("legs");
 
       const risk = computeRiskLocally(weather, clo, activity);
@@ -832,7 +1184,7 @@
       const w = weather;
       const vKmh = w.wind * 3.6;
       const v016 = Math.pow(Math.max(vKmh, 0.1), 0.16);
-      const wc   = 13.12 + 0.6215 * w.temp - 11.37 * v016 + 0.3965 * w.temp * v016;
+      const wc = 13.12 + 0.6215 * w.temp - 11.37 * v016 + 0.3965 * w.temp * v016;
       const windChill = (w.temp < 10 && vKmh > 3) ? wc : w.temp;
 
       const prompt = `Current conditions at ${selectedLocation.name}:
@@ -868,7 +1220,7 @@ Return ONLY valid JSON, no markdown, no preamble:
           model: "claude-sonnet-4-20250514",
           max_tokens: 400,
           temperature: 0.1,
-          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. You do not overstate or understate risk. Return only valid JSON.",
+          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. You do not overstate or understate risk. Always assume the person is wearing standard underwear and a basic t-shirt as a base, unless they say otherwise. Return only valid JSON.",
           messages: [{ role: "user", content: prompt }],
         }),
       });
@@ -883,20 +1235,20 @@ Return ONLY valid JSON, no markdown, no preamble:
       const { temp, wind, humidity } = weather;
       const vKmh = wind * 3.6;
       const v016 = Math.pow(Math.max(vKmh, 0.1), 0.16);
-      const wc   = 13.12 + 0.6215 * temp - 11.37 * v016 + 0.3965 * temp * v016;
-      const windChill  = (temp < 10 && vKmh > 3) ? wc : temp;
+      const wc = 13.12 + 0.6215 * temp - 11.37 * v016 + 0.3965 * temp * v016;
+      const windChill = (temp < 10 && vKmh > 3) ? wc : temp;
       const humPenalty = humidity > 70 ? (humidity - 70) * 0.18 : 0;
-      const refClo     = 1.5;
+      const refClo = 1.5;
 
       const windContrib = Math.max(0, temp - windChill);
-      const humContrib  = humPenalty;
+      const humContrib = humPenalty;
       const gearContrib = Math.max(0, refClo - clo) * 8;
       const total = windContrib + humContrib + gearContrib + 0.01;
 
       const shap = {
-        wind:     Math.round(windContrib / total * 100),
-        humidity: Math.round(humContrib  / total * 100),
-        gear:     Math.round(gearContrib / total * 100),
+        wind: Math.round(windContrib / total * 100),
+        humidity: Math.round(humContrib / total * 100),
+        gear: Math.round(gearContrib / total * 100),
       };
       shap.wind += 100 - shap.wind - shap.humidity - shap.gear;
       return shap;
@@ -911,7 +1263,6 @@ Return ONLY valid JSON, no markdown, no preamble:
       } catch (err) {
         console.warn("Claude API failed, using local fallback:", err);
       }
-
       if (aiResult) {
         // AI is primary — use its risk_level and safe_minutes directly
         // Rule engine acts as hard safety cap only
@@ -920,13 +1271,18 @@ Return ONLY valid JSON, no markdown, no preamble:
         // If AI says much safer than physics allows, cap it
         // (prevents AI from being overoptimistic)
         const cappedMinutes = Math.min(aiResult.safe_minutes, localCheck.safeMin * 2);
+        if (localCheck.safeMin > 0) {
+          window._forecastCalibration = Math.min(3.0, cappedMinutes / localCheck.safeMin);
+        } else {
+          window._forecastCalibration = 1.0;
+        }
         const tier = tierFromMinutes(cappedMinutes);
         const shap = computeShap(currentWeather, aiResult.clo, selectedActivity);
         lastAnalyzedClo = aiResult.clo;
         return {
           gear: {
             summary: aiResult.summary,
-            gaps:    aiResult.gaps || "",
+            gaps: aiResult.gaps || "",
             recommendation: aiResult.recommendation || "",
           },
           risk: { safeMin: cappedMinutes, tier, shap },
@@ -935,19 +1291,21 @@ Return ONLY valid JSON, no markdown, no preamble:
       } else {
         // Full local fallback
         const local = estimateGearLocally(outfit, currentWeather, selectedActivity);
-        const risk  = computeRiskLocally(currentWeather, local.clo, selectedActivity);
-        const shap  = computeShap(currentWeather, local.clo, selectedActivity);
+        const risk = computeRiskLocally(currentWeather, local.clo, selectedActivity);
+        const shap = computeShap(currentWeather, local.clo, selectedActivity);
 
-        const tempDesc = currentWeather.temp > 5   ? "mild conditions" :
-                         currentWeather.temp > -5  ? "cold conditions" :
-                         currentWeather.temp > -15 ? "seriously cold conditions" : "severe cold";
+        const tempDesc = currentWeather.temp > 5 ? "mild conditions" :
+          currentWeather.temp > -5 ? "cold conditions" :
+            currentWeather.temp > -15 ? "seriously cold conditions" : "severe cold";
 
         const summary = local.clo >= 2.2
           ? `Your outfit provides solid insulation for ${tempDesc}.`
           : local.clo >= 1.2
-          ? `Your outfit offers partial protection — adequate for short exposure in ${tempDesc}.`
-          : `Your outfit offers minimal insulation and will lose heat quickly in ${tempDesc}.`;
+            ? `Your outfit offers partial protection — adequate for short exposure in ${tempDesc}.`
+            : `Your outfit offers minimal insulation and will lose heat quickly in ${tempDesc}.`;
         lastAnalyzedClo = local.clo;
+        window._forecastCalibration = 1.0; // no AI adjustment when using fallback
+
         return {
           gear: { summary, gaps: local.gaps, recommendation: "" },
           risk: { safeMin: risk.safeMin, tier: risk.tier, shap },
@@ -963,46 +1321,106 @@ Return ONLY valid JSON, no markdown, no preamble:
 
       const chip = $("risk-chip");
       chip.textContent = `${risk.tier.emoji} ${risk.tier.level} Risk`;
-      chip.className   = `risk-chip risk-${risk.tier.cls}`;
+      chip.className = `risk-chip risk-${risk.tier.cls}`;
+      $("risk-location").textContent = selectedLocation.name;
 
       startTimer(risk.safeMin);
       $("timer").classList.toggle("extreme", risk.tier.cls === "extreme");
 
       $("gear-summary").textContent = gear.summary;
-      $("gear-gaps").textContent    = gear.gaps || "";
+      $("gear-gaps").textContent = gear.gaps || "";
       $("gear-recommendation").textContent = gear.recommendation || "";
 
       requestAnimationFrame(() => {
-        setBar("wind",     risk.shap.wind);
+        setBar("wind", risk.shap.wind);
         setBar("humidity", risk.shap.humidity);
-        setBar("gear",     risk.shap.gear);
+        setBar("gear", risk.shap.gear);
       });
 
+      const shareBtn = $("share-btn");
+      shareBtn.style.display = "inline-block";
+      shareBtn.onclick = () => {
+        const text = `Ulko says: ${risk.tier.level} Risk at ${selectedLocation.name}. Safe outdoor time in my current outfit: ${risk.safeMin >= 120 ? "2+ hours" : risk.safeMin + " minutes"}. Know before you go. #Ulko #KnowBeforeYouGo`;
+        if (navigator.share) {
+          navigator.share({ text });
+        } else {
+          navigator.clipboard.writeText(text).then(() => {
+            shareBtn.textContent = "✓ Copied";
+            setTimeout(() => shareBtn.textContent = "↗ Share result", 2000);
+          });
+        }
+      };
       fetchForecast();
     }
 
     function setBar(name, value) {
-      $(`bar-${name}`).style.width  = `${value}%`;
-      $(`pct-${name}`).textContent  = `${value}%`;
+      $(`bar-${name}`).style.width = `${value}%`;
+      $(`pct-${name}`).textContent = `${value}%`;
     }
 
     function startTimer(totalMin) {
       if (timerInterval) clearInterval(timerInterval);
       const el = $("timer");
-      if (totalMin >= 999) { el.textContent = "∞"; el.classList.remove("pulse"); return; }
-      if (totalMin >= 120) { el.textContent = "∞"; el.classList.remove("pulse"); return; }
+      const btn = $("timer-start-btn");
 
+      // Reset alarm state
+      document.querySelector(".app").classList.remove("timer-alarming");
+
+      if (totalMin >= 120) {
+        el.textContent = "∞";
+        el.classList.remove("pulse");
+        btn.style.display = "none";
+        return;
+      }
+
+      // Show the start button, don't auto-start
       let secs = totalMin * 60;
-      const tick = () => {
-        if (secs < 0) { el.textContent = "00:00"; clearInterval(timerInterval); return; }
-        const m = String(Math.floor(secs / 60)).padStart(2, "0");
-        const s = String(secs % 60).padStart(2, "0");
-        el.textContent = `${m}:${s}`;
-        el.classList.toggle("pulse", secs <= 600);
-        secs--;
+      btn.style.display = "inline-block";
+      btn.textContent = "▶ Start countdown";
+      btn.classList.remove("running");
+
+      // Display static time until user starts
+      const m = String(Math.floor(secs / 60)).padStart(2, "0");
+      const s = String(secs % 60).padStart(2, "0");
+      el.textContent = `${m}:${s}`;
+
+      btn.onclick = () => {
+        if (timerInterval) {
+          // Pause
+          clearInterval(timerInterval);
+          timerInterval = null;
+          btn.textContent = "▶ Resume";
+          btn.classList.remove("running");
+          return;
+        }
+
+        btn.textContent = "⏸ Pause";
+        btn.classList.add("running");
+
+        const tick = () => {
+          if (secs < 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            el.textContent = "00:00";
+            btn.textContent = "⏹ Time's up";
+            btn.classList.remove("running");
+
+            // Alarm — pulse the whole app + vibrate if available
+            document.querySelector(".app").classList.add("timer-alarming");
+            if (navigator.vibrate) navigator.vibrate([400, 200, 400, 200, 800]);
+            return;
+          }
+
+          const m = String(Math.floor(secs / 60)).padStart(2, "0");
+          const s = String(secs % 60).padStart(2, "0");
+          el.textContent = `${m}:${s}`;
+          el.classList.toggle("pulse", secs <= 60);
+          secs--;
+        };
+
+        tick();
+        timerInterval = setInterval(tick, 1000);
       };
-      tick();
-      timerInterval = setInterval(tick, 1000);
     }
 
     // ── WINDOW OF SAFETY — REAL FORECAST ─────────────────────────────
@@ -1010,7 +1428,7 @@ Return ONLY valid JSON, no markdown, no preamble:
       $("window-content").innerHTML = '<div class="loading">Loading 24-hour forecast...</div>';
       const { lat, lon } = selectedLocation;
       try {
-        const res  = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric&cnt=8`);
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric&cnt=24`);
         const data = await res.json();
         if (!res.ok || data.cod === "401") throw new Error("key not active");
         renderForecast(data.list);
@@ -1020,62 +1438,134 @@ Return ONLY valid JSON, no markdown, no preamble:
     }
 
     function forecastSlotRisk(item) {
-      // Use reference outfit (1.5 Clo) for forecast — shows environmental risk
-      return computeRiskLocally(
-        { temp: item.main.temp, wind: item.wind.speed, humidity: item.main.humidity },
-        lastAnalyzedClo,
-        selectedActivity
-      );
+      const { temp, wind, humidity } = {
+        temp: item.main.temp,
+        wind: item.wind.speed,
+        humidity: item.main.humidity
+      };
+      const cloClamped = Math.max(0.2, lastAnalyzedClo);
+      const calibration = window._forecastCalibration || 1.0;
+
+      // Rule engine calculation
+      const vKmh = wind * 3.6;
+      const v016 = Math.pow(Math.max(vKmh, 0.1), 0.16);
+      const wc = 13.12 + 0.6215 * temp - 11.37 * v016 + 0.3965 * temp * v016;
+      const windChill = (temp < 10 && vKmh > 3) ? wc : temp;
+      const humPenalty = humidity > 70 ? (humidity - 70) * 0.18 : 0;
+      const actBonus = ACTIVITY_OFFSETS[selectedActivity] || 0;
+      const effTemp = windChill - humPenalty + actBonus;
+
+      let base;
+      if (effTemp >= 10) base = 999;
+      else if (effTemp >= 5) base = 240;
+      else if (effTemp >= 0) base = 120;
+      else if (effTemp >= -5) base = 75;
+      else if (effTemp >= -10) base = 45;
+      else if (effTemp >= -20) base = 25 + (effTemp + 20) * 2;
+      else base = Math.max(5, 15 + (effTemp + 30));
+
+      const refClo = 1.5;
+      const gearRatio = Math.max(0.2, cloClamped / refClo);
+      // Apply the same calibration the AI applied to current conditions
+      const safeMin = Math.min(999, Math.round(base * gearRatio * calibration));
+
+      return { tier: tierFromMinutes(safeMin), safeMin };
     }
 
     function renderForecast(list) {
-      const slots = list.slice(0, 8).map(item => {
-        const r    = forecastSlotRisk(item);
-        const hour = new Date(item.dt * 1000).getHours().toString().padStart(2, "0") + ":00";
-        return { hour, cls: r.tier.cls, level: r.tier.level, temp: item.main.temp.toFixed(1) };
-      });
-      buildWindowHTML(slots, false);
+      const now = new Date();
+      const startMs = now.getTime();
+      const hourlySlots = [];
+
+      for (let i = 1; i <= 24; i++) {
+        const targetMs = startMs + i * 3600000;
+        const targetTs = targetMs / 1000;
+
+        // Find surrounding 3h slots and interpolate temperature
+        let before = list[0], after = list[0];
+        for (let j = 0; j < list.length - 1; j++) {
+          if (list[j].dt <= targetTs && list[j + 1].dt >= targetTs) {
+            before = list[j];
+            after = list[j + 1];
+            break;
+          }
+        }
+
+      // Linear interpolation of temperature
+      const span = after.dt - before.dt || 1;
+      const frac = Math.min(1, Math.max(0, (targetTs - before.dt) / span));
+      const temp = before.main.temp + frac * (after.main.temp - before.main.temp);
+      const wind = before.wind.speed + frac * (after.wind.speed - before.wind.speed);
+      const humid = before.main.humidity + frac * (after.main.humidity - before.main.humidity);
+
+      const fakeItem = { main: { temp, humidity: humid }, wind: { speed: wind } };
+      const r = forecastSlotRisk(fakeItem);
+      const d = new Date(targetMs);
+      const hour = d.getHours().toString().padStart(2, "0") + ":00";
+      hourlySlots.push({ hour, cls: r.tier.cls, level: r.tier.level, temp: temp.toFixed(1) });
     }
 
+      buildWindowHTML(hourlySlots, false);
+   }
+
     function renderSyntheticForecast() {
-      const base  = currentWeather;
-      const slots = Array.from({ length: 8 }, (_, i) => {
-        const variation = Math.sin((i / 7) * Math.PI) * 2.5 - 0.8;
-        const w = { temp: base.temp + variation, wind: base.wind, humidity: base.humidity };
-        const r = computeRiskLocally(w, 1.5, selectedActivity);
-        const hour = new Date(Date.now() + i * 3 * 3600000).getHours().toString().padStart(2, "0") + ":00";
-        return { hour, cls: r.tier.cls, level: r.tier.level, temp: w.temp.toFixed(1) };
+      const base = currentWeather;
+      const now = new Date();
+      const slots = Array.from({ length: 24 }, (_, i) => {
+        const variation = Math.sin(((i + 1) / 24) * Math.PI * 2) * 1.5 - 0.3;
+        const fakeItem = {
+          main: { temp: base.temp + variation, humidity: base.humidity },
+          wind: { speed: base.wind }
+        };
+        const r = forecastSlotRisk(fakeItem);
+        const d = new Date(now.getTime() + (i + 1) * 3600000);
+        const hour = d.getHours().toString().padStart(2, "0") + ":00";
+        return { hour, cls: r.tier.cls, level: r.tier.level, temp: fakeItem.main.temp.toFixed(1) };
       });
       buildWindowHTML(slots, true);
     }
 
     function buildWindowHTML(slots, isSynthetic) {
-        const blocks = slots.map(s =>
-          `<div class="window-block ${s.cls}" data-tip="${s.hour} · ${s.level} · ${s.temp}°C · ~${computeRiskLocally({ temp: parseFloat(s.temp), wind: currentWeather.wind, humidity: currentWeather.humidity }, lastAnalyzedClo, selectedActivity).safeMin} min"></div>`
-        ).join("");
-        const labels = [0, 2, 4, 6].map(i => `<span>${slots[i]?.hour ?? ""}</span>`).join("");
+      const tierOrder = { low: 0, moderate: 1, high: 2, extreme: 3 };
+      const best = slots.reduce((a, b) => {
+        if (tierOrder[a.cls] !== tierOrder[b.cls]) return tierOrder[a.cls] < tierOrder[b.cls] ? a : b;
+        return parseFloat(a.temp) >= parseFloat(b.temp) ? a : b;
+      });
 
-        // Find best slot (lowest risk tier)
-        const tierOrder = { low: 0, moderate: 1, high: 2, extreme: 3 };
-        const best = slots.reduce((a, b) => tierOrder[a.cls] <= tierOrder[b.cls] ? a : b);
-        const bestLine = `<div class="window-best">Best window today: <strong>${best.hour}</strong> — ${best.level} risk at ${best.temp}°C</div>`;
+      // 2 rows of 4 blocks = 8 slots = 24 hours
+      const rows = [
+        slots.slice(0, 6),
+        slots.slice(6, 12),
+        slots.slice(12, 18),
+        slots.slice(18, 24),
+      ];
+      const rowsHTML = rows.map(row => `
+    <div class="window-track" style="grid-template-columns: repeat(6, 1fr); margin-bottom: 5px;">
+      ${row.map(s => `
+        <div class="window-block ${s.cls}" data-tip="${s.hour} · ${s.level} · ${s.temp}°C">
+          <span class="window-hour">${s.hour.replace(":00", "")}</span>
+        </div>
+      `).join("")}
+    </div>
+  `).join("");
 
-        $("window-content").innerHTML = `
-          <div class="window-track">${blocks}</div>
-          <div class="window-labels">${labels}</div>
-          ${bestLine}
-          ${isSynthetic ? '<div class="window-note">Forecast activating — showing estimate based on current conditions.</div>' : ""}
-        `;
+      const bestLine = `<div class="window-best">Best window: <strong>${best.hour}:00</strong> — ${best.level} risk at ${best.temp}°C</div>`;
+
+      $("window-content").innerHTML = `
+    ${rowsHTML}
+    ${bestLine}
+    ${isSynthetic ? '<div class="window-note">Forecast activating — showing estimate based on current conditions.</div>' : ""}
+  `;
     }
 
     // ── SUBMIT ────────────────────────────────────────────────────────
     async function onAnalyze() {
       const outfit = $("gear-input").value.trim();
-      if (!outfit)         { alert("Please describe your outfit first."); return; }
+      if (!outfit) { alert("Please describe your outfit first."); return; }
       if (!currentWeather) { alert("Weather data not ready yet — please wait a moment."); return; }
 
       const btn = $("analyze-btn");
-      btn.disabled    = true;
+      btn.disabled = true;
       btn.textContent = "Analyzing...";
 
       try {
@@ -1085,12 +1575,13 @@ Return ONLY valid JSON, no markdown, no preamble:
         console.error(err);
         alert("Something went wrong. Check the browser console.");
       } finally {
-        btn.disabled    = false;
-        btn.textContent = "Analyze my gear";
+        btn.disabled = false;
+        btn.textContent = "Check my safety";
       }
     }
 
     init();
   </script>
 </body>
+
 </html>
