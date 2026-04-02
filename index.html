@@ -561,7 +561,10 @@
       border: 1px solid rgba(245, 158, 11, 0.16);
     }
 
-    .gaps:empty { display: none; }
+    .gaps:empty {
+      display: none;
+    }
+
     .gaps:not(:empty)::before {
       content: "Warning: ";
       font-weight: 700;
@@ -579,14 +582,13 @@
       line-height: 1.6;
     }
 
-    .recommendation:empty {
-      display: none;
-    }
+    /* recommendation visibility controlled by JS */
 
     .recommendation::before {
       content: "Suggestion: ";
       font-weight: 700;
-      color: var(--ice-strong);
+      color: #38bdf8;
+      display: inline;
     }
 
     .bars {
@@ -719,6 +721,13 @@
     .window-block.extreme {
       background: rgba(239, 68, 68, 0.55);
       border-color: rgba(239, 68, 68, 0.45);
+    }
+
+    .window-block.is-now {
+      outline: 2px solid rgba(125, 211, 252, 0.6);
+      outline-offset: -2px;
+      transform: scale(1.08);
+      z-index: 1;
     }
 
     .window-labels {
@@ -939,8 +948,8 @@
           <div class="card-inner">
             <div class="eyebrow">Gear Analysis</div>
             <div id="gear-summary" class="summary"></div>
-            <div id="gear-gaps" class="gaps"></div>
-            <div id="gear-recommendation" class="recommendation"></div>
+            <div id="gear-gaps" class="gaps" style="display:none"></div>
+            <div id="gear-recommendation" class="recommendation" style="display:none"></div>
           </div>
         </article>
 
@@ -1177,7 +1186,28 @@
       return { clo, summary: null, gaps: missing.length ? missing.join(", ") : "", risk };
     }
 
-    // ── CLAUDE API — PRIMARY ASSESSMENT ──────────────────────────────
+    // ── CLIENT-SIDE CLOTHING VALIDATION ──────────────────────────────
+    function looksLikeClothing(text) {
+      const t = text.toLowerCase();
+      const clothingKeywords = [
+        // Garments
+        "jacket", "coat", "parka", "hoodie", "sweater", "jumper", "fleece",
+        "shirt", "t-shirt", "tshirt", "blouse", "top", "vest", "waistcoat",
+        "trousers", "pants", "jeans", "shorts", "leggings", "skirt", "dress",
+        "base layer", "mid layer", "thermal", "wool", "down", "insulated",
+        "waterproof", "windproof", "shell", "softshell",
+        // Accessories
+        "gloves", "mittens", "hat", "beanie", "balaclava", "scarf", "hood",
+        "boots", "shoes", "sneakers", "trainers", "socks",
+        // Body references in clothing context
+        "wearing", "wore", "have on", "dressed", "outfit", "clothes", "clothing",
+        "layers", "layer", "gear", "uniform", "suit", "underwear",
+        // Common abbreviations / shorthand
+        "tee", "hoodie", "puffer", "anorak", "cardigan", "polo",
+        "no gloves", "no hat", "no jacket", "without",
+      ];
+      return clothingKeywords.some(kw => t.includes(kw));
+    }
     // Claude receives full context: weather + activity + outfit
     // and returns: clo, summary, gaps, risk_level, safe_minutes
     async function analyzeWithClaude(outfit, weather, activity) {
@@ -1205,7 +1235,8 @@ Return ONLY valid JSON, no markdown, no preamble:
   "gaps": "specific unprotected body areas and their realistic impact at ${w.temp.toFixed(1)}°C, or empty string if fully adequate",
   "risk_level": "Low" | "Moderate" | "High" | "Extreme",
   "safe_minutes": number (realistic safe outdoor exposure time in minutes for this exact outfit + conditions + activity, use 999 for effectively unlimited),
-  "recommendation": "the single most impactful clothing item to add or change that would improve safety — include estimated new safe time and new risk level, or empty string if already well protected"
+  "recommendation": "the single most impactful clothing item to add or change that would improve safety — include estimated new safe time and new risk level, or empty string if already well protected",
+  "is_valid_outfit": true or false (false if the input does not describe clothing)
 }`;
 
       const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -1218,9 +1249,9 @@ Return ONLY valid JSON, no markdown, no preamble:
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 400,
+          max_tokens: 600,
           temperature: 0.1,
-          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. You do not overstate or understate risk. Always assume the person is wearing standard underwear and a basic t-shirt as a base, unless they say otherwise. Return only valid JSON.",
+          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. You do not overstate or understate risk. Always assume the person is wearing standard underwear and a basic t-shirt as a base layer, unless they say otherwise. If the input does not describe clothing at all (e.g. random words, objects, questions, gibberish), set is_valid_outfit to false and all other fields to defaults. Return only valid JSON.",
           messages: [{ role: "user", content: prompt }],
         }),
       });
@@ -1264,10 +1295,18 @@ Return ONLY valid JSON, no markdown, no preamble:
         console.warn("Claude API failed, using local fallback:", err);
       }
       if (aiResult) {
-        // AI is primary — use its risk_level and safe_minutes directly
-        // Rule engine acts as hard safety cap only
+        if (aiResult.is_valid_outfit === false) {
+          return {
+            gear: {
+              summary: "That doesn't look like a clothing description. Please describe what you're actually wearing — jacket, trousers, boots, gloves, etc.",
+              gaps: "",
+              recommendation: "",
+              invalid: true,
+            },
+            risk: null,
+          };
+        }
         const localCheck = computeRiskLocally(currentWeather, aiResult.clo, selectedActivity);
-
         // If AI says much safer than physics allows, cap it
         // (prevents AI from being overoptimistic)
         const cappedMinutes = Math.min(aiResult.safe_minutes, localCheck.safeMin * 2);
@@ -1319,6 +1358,21 @@ Return ONLY valid JSON, no markdown, no preamble:
       el.classList.remove("hidden");
       el.scrollIntoView({ behavior: "smooth", block: "start" });
 
+      // Invalid outfit — show message only
+      if (!risk) {
+        $("gear-summary").textContent = gear.summary;
+        $("gear-gaps").style.display = "none";
+        $("gear-recommendation").style.display = "none";
+        $("risk-chip").textContent = "—";
+        $("risk-chip").className = "risk-chip";
+        $("risk-location").textContent = "";
+        $("timer").textContent = "--:--";
+        $("timer-start-btn").style.display = "none";
+        $("share-btn").style.display = "none";
+        $("window-content").innerHTML = "";
+        return;
+      }
+
       const chip = $("risk-chip");
       chip.textContent = `${risk.tier.emoji} ${risk.tier.level} Risk`;
       chip.className = `risk-chip risk-${risk.tier.cls}`;
@@ -1328,9 +1382,24 @@ Return ONLY valid JSON, no markdown, no preamble:
       $("timer").classList.toggle("extreme", risk.tier.cls === "extreme");
 
       $("gear-summary").textContent = gear.summary;
-      $("gear-gaps").textContent = gear.gaps || "";
-      $("gear-recommendation").textContent = gear.recommendation || "";
-
+      const gapsEl = $("gear-gaps");
+      if (gear.gaps) {
+        gapsEl.textContent = gear.gaps;
+        gapsEl.style.display = "block";
+      } else {
+        gapsEl.textContent = "";
+        gapsEl.style.display = "none";
+      }
+      const recEl = $("gear-recommendation");
+      const rec = gear.recommendation ||
+        (risk.tier.cls !== "low" ? "Add more insulating layers — a warm jacket, long trousers, gloves, and a hat would significantly extend your safe outdoor time." : "");
+      if (rec) {
+        recEl.textContent = rec;
+        recEl.style.display = "block";
+      } else {
+        recEl.textContent = "";
+        recEl.style.display = "none";
+      }
       requestAnimationFrame(() => {
         setBar("wind", risk.shap.wind);
         setBar("humidity", risk.shap.humidity);
@@ -1428,7 +1497,7 @@ Return ONLY valid JSON, no markdown, no preamble:
       $("window-content").innerHTML = '<div class="loading">Loading 24-hour forecast...</div>';
       const { lat, lon } = selectedLocation;
       try {
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric&cnt=24`);
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${CONFIG.OPENWEATHER_KEY}&units=metric&cnt=8`);
         const data = await res.json();
         if (!res.ok || data.cod === "401") throw new Error("key not active");
         renderForecast(data.list);
@@ -1473,56 +1542,61 @@ Return ONLY valid JSON, no markdown, no preamble:
     }
 
     function renderForecast(list) {
-      const now = new Date();
-      const startMs = now.getTime();
-      const hourlySlots = [];
+      // Slot 0: Now (current conditions)
+      const nowRisk = forecastSlotRisk({
+        main: { temp: currentWeather.temp, humidity: currentWeather.humidity },
+        wind: { speed: currentWeather.wind }
+      });
+      const nowSlot = {
+        hour: "Now", cls: nowRisk.tier.cls, level: nowRisk.tier.level,
+        temp: currentWeather.temp.toFixed(1), isNow: true
+      };
 
-      for (let i = 1; i <= 24; i++) {
-        const targetMs = startMs + i * 3600000;
-        const targetTs = targetMs / 1000;
-
-        // Find surrounding 3h slots and interpolate temperature
+      // Slots 1-23: interpolate API 3h slots to hourly
+      const futureSlots = [];
+      for (let i = 1; i <= 23; i++) {
+        const targetTs = (Date.now() + i * 3600000) / 1000;
         let before = list[0], after = list[0];
         for (let j = 0; j < list.length - 1; j++) {
           if (list[j].dt <= targetTs && list[j + 1].dt >= targetTs) {
-            before = list[j];
-            after = list[j + 1];
-            break;
+            before = list[j]; after = list[j + 1]; break;
           }
         }
+        const span = Math.max(1, after.dt - before.dt);
+        const frac = Math.min(1, Math.max(0, (targetTs - before.dt) / span));
+        const temp = before.main.temp + frac * (after.main.temp - before.main.temp);
+        const wind = before.wind.speed + frac * (after.wind.speed - before.wind.speed);
+        const humid = before.main.humidity + frac * (after.main.humidity - before.main.humidity);
+        const fakeItem = { main: { temp, humidity: humid }, wind: { speed: wind } };
+        const r = forecastSlotRisk(fakeItem);
+        const d = new Date(Date.now() + i * 3600000);
+        const hour = d.getHours().toString().padStart(2, "0") + ":00";
+        futureSlots.push({ hour, cls: r.tier.cls, level: r.tier.level, temp: temp.toFixed(1) });
+      }
 
-      // Linear interpolation of temperature
-      const span = after.dt - before.dt || 1;
-      const frac = Math.min(1, Math.max(0, (targetTs - before.dt) / span));
-      const temp = before.main.temp + frac * (after.main.temp - before.main.temp);
-      const wind = before.wind.speed + frac * (after.wind.speed - before.wind.speed);
-      const humid = before.main.humidity + frac * (after.main.humidity - before.main.humidity);
-
-      const fakeItem = { main: { temp, humidity: humid }, wind: { speed: wind } };
-      const r = forecastSlotRisk(fakeItem);
-      const d = new Date(targetMs);
-      const hour = d.getHours().toString().padStart(2, "0") + ":00";
-      hourlySlots.push({ hour, cls: r.tier.cls, level: r.tier.level, temp: temp.toFixed(1) });
+      buildWindowHTML([nowSlot, ...futureSlots], false);
     }
-
-      buildWindowHTML(hourlySlots, false);
-   }
 
     function renderSyntheticForecast() {
       const base = currentWeather;
-      const now = new Date();
-      const slots = Array.from({ length: 24 }, (_, i) => {
-        const variation = Math.sin(((i + 1) / 24) * Math.PI * 2) * 1.5 - 0.3;
-        const fakeItem = {
-          main: { temp: base.temp + variation, humidity: base.humidity },
-          wind: { speed: base.wind }
-        };
-        const r = forecastSlotRisk(fakeItem);
-        const d = new Date(now.getTime() + (i + 1) * 3600000);
-        const hour = d.getHours().toString().padStart(2, "0") + ":00";
-        return { hour, cls: r.tier.cls, level: r.tier.level, temp: fakeItem.main.temp.toFixed(1) };
+      const nowRisk = forecastSlotRisk({
+        main: { temp: base.temp, humidity: base.humidity },
+        wind: { speed: base.wind }
       });
-      buildWindowHTML(slots, true);
+      const nowSlot = {
+        hour: "Now", cls: nowRisk.tier.cls, level: nowRisk.tier.level,
+        temp: base.temp.toFixed(1), isNow: true
+      };
+      const futureSlots = Array.from({ length: 23 }, (_, i) => {
+        const h = i + 1;
+        const variation = Math.sin((h / 24) * Math.PI * 2) * 2 - 0.5;
+        const w = { temp: base.temp + variation, wind: base.wind, humidity: base.humidity };
+        const r = forecastSlotRisk({ main: { temp: w.temp, humidity: w.humidity }, wind: { speed: w.wind } });
+        const d = new Date(Date.now() + h * 3600000);
+        const hour = d.getHours().toString().padStart(2, "0") + ":00";
+        return { hour, cls: r.tier.cls, level: r.tier.level, temp: w.temp.toFixed(1) };
+      });
+      buildWindowHTML([nowSlot, ...futureSlots], true);
     }
 
     function buildWindowHTML(slots, isSynthetic) {
@@ -1532,7 +1606,7 @@ Return ONLY valid JSON, no markdown, no preamble:
         return parseFloat(a.temp) >= parseFloat(b.temp) ? a : b;
       });
 
-      // 2 rows of 4 blocks = 8 slots = 24 hours
+      // 4 rows × 6 slots = 24 (Now + 23 hourly)
       const rows = [
         slots.slice(0, 6),
         slots.slice(6, 12),
@@ -1541,16 +1615,17 @@ Return ONLY valid JSON, no markdown, no preamble:
       ];
       const rowsHTML = rows.map(row => `
     <div class="window-track" style="grid-template-columns: repeat(6, 1fr); margin-bottom: 5px;">
-      ${row.map(s => `
-        <div class="window-block ${s.cls}" data-tip="${s.hour} · ${s.level} · ${s.temp}°C">
-          <span class="window-hour">${s.hour.replace(":00", "")}</span>
-        </div>
-      `).join("")}
-    </div>
-  `).join("");
+      ${row.map(s => {
+        const label = s.isNow ? "Now" : s.hour.replace(":00", "");
+        const fontSize = s.isNow ? "0.48rem" : "0.58rem";
+        return `<div class="window-block ${s.cls}${s.isNow ? ' is-now' : ''}" data-tip="${s.isNow ? 'Right now' : s.hour} · ${s.level} · ${s.temp}°C">
+          <span class="window-hour" style="font-size:${fontSize}">${label}</span>
+        </div>`;
+      }).join("")}
+    </div>`).join("");
 
-      const bestLine = `<div class="window-best">Best window: <strong>${best.hour}:00</strong> — ${best.level} risk at ${best.temp}°C</div>`;
-
+      const bestLabel = best.isNow ? "Right now" : best.hour;
+      const bestLine = `<div class="window-best">Best window: <strong>${bestLabel}</strong> — ${best.level} risk at ${best.temp}°C</div>`;
       $("window-content").innerHTML = `
     ${rowsHTML}
     ${bestLine}
@@ -1563,6 +1638,21 @@ Return ONLY valid JSON, no markdown, no preamble:
       const outfit = $("gear-input").value.trim();
       if (!outfit) { alert("Please describe your outfit first."); return; }
       if (!currentWeather) { alert("Weather data not ready yet — please wait a moment."); return; }
+
+      if (!looksLikeClothing(outfit)) {
+        const { gear: invalidGear } = {
+          gear: {
+            summary: "That doesn't look like a clothing description. Please describe what you're actually wearing — jacket, trousers, boots, gloves, hat, etc.",
+            gaps: "",
+            recommendation: "",
+            invalid: true,
+          }
+        };
+        renderResults(invalidGear, null);
+        $("analyze-btn").disabled = false;
+        $("analyze-btn").textContent = "Check my safety";
+        return;
+      }
 
       const btn = $("analyze-btn");
       btn.disabled = true;
