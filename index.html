@@ -47,19 +47,21 @@
       min-height: 100vh;
       color: var(--text);
       font-family: Inter, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.12), transparent 28%),
-        radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.08), transparent 28%),
-        linear-gradient(180deg, #071018 0%, #09121c 48%, #081018 100%);
+      background: #dde6ed;
       overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
 
-    body::before {
+    body::before { display: none; }
+
+    .app::before {
       content: "";
-      position: fixed;
+      position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(120deg, transparent 0%, rgba(125, 211, 252, 0.03) 35%, transparent 70%);
+      background: linear-gradient(120deg, transparent 0%, rgba(125,211,252,0.03) 35%, transparent 70%);
       animation: aurora 12s ease-in-out infinite alternate;
       z-index: 0;
     }
@@ -80,8 +82,15 @@
       position: relative;
       z-index: 1;
       width: min(100%, 480px);
+      min-width: 380px;
       margin: 0 auto;
       padding: 18px 16px calc(112px + var(--safe-bottom));
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56,189,248,0.12), transparent 28%),
+        radial-gradient(circle at 90% 100%, rgba(45,212,191,0.08), transparent 28%),
+        linear-gradient(180deg, #071018 0%, #09121c 48%, #081018 100%);
+      min-height: 100vh;
+      box-shadow: 0 0 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(125,211,252,0.06);
     }
 
     .topbar {
@@ -816,9 +825,226 @@
       }
     }
 
-    .tiny {
-      font-size: 0.8rem;
+    .gear-coach-wrap {
+      position: relative;
+    }
+
+    .gear-coach-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+
+    .gear-icon-btn {
+      background: rgba(125, 211, 252, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-dim);
+      padding: 8px 12px;
+      cursor: pointer;
+      font: 700 0.75rem/1 "Space Mono", monospace;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+      position: relative;
+    }
+
+    .gear-icon-btn:hover {
+      background: rgba(125, 211, 252, 0.16);
+      color: var(--ice);
+      border-color: var(--border-strong);
+    }
+
+    .gear-icon-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .history-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--ice-strong);
+      color: #071018;
+      font: 700 0.6rem/1 "Space Mono", monospace;
+      border-radius: 999px;
+      padding: 2px 5px;
+      min-width: 16px;
+      text-align: center;
+    }
+
+    .photo-preview {
+      margin-top: 10px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: rgba(125, 211, 252, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .photo-preview.visible {
+      display: flex;
+    }
+
+    .photo-preview img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .photo-preview-label {
+      font: 400 0.78rem/1.4 "Space Mono", monospace;
+      color: var(--text-dim);
+      flex: 1;
+    }
+
+    .photo-remove {
+      background: none;
+      border: none;
       color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+      transition: color 0.15s;
+    }
+
+    .photo-remove:hover {
+      color: var(--danger);
+    }
+
+    /* ── History bottom sheet ── */
+    .sheet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 200;
+      backdrop-filter: blur(2px);
+    }
+
+    .sheet-overlay.open {
+      display: block;
+    }
+
+    .history-sheet {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%) translateY(100%);
+      width: min(100%, 480px);
+      background: var(--panel-strong);
+      border: 1px solid var(--border-strong);
+      border-bottom: none;
+      border-radius: 24px 24px 0 0;
+      z-index: 201;
+      transition: transform 0.32s cubic-bezier(.2, .8, .2, 1);
+      padding: 0 0 calc(32px + var(--safe-bottom));
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .history-sheet.open {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border-strong);
+      border-radius: 999px;
+      margin: 12px auto 18px;
+    }
+
+    .sheet-title {
+      font: 700 0.72rem/1 "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      padding: 0 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .history-empty {
+      padding: 32px 18px;
+      text-align: center;
+      color: var(--text-muted);
+      font: 400 0.85rem/1.6 "Space Mono", monospace;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-item:hover {
+      background: rgba(125, 211, 252, 0.06);
+    }
+
+    .history-item:active {
+      background: rgba(125, 211, 252, 0.12);
+    }
+
+    .history-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .history-thumb-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(125, 211, 252, 0.08);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    .history-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-outfit {
+      font: 500 0.88rem/1.4 Inter, sans-serif;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-meta {
+      font: 400 0.68rem/1 "Space Mono", monospace;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .history-arrow {
+      color: var(--text-muted);
+      font-size: 0.9rem;
     }
 
     @media (min-width: 481px) {
@@ -925,10 +1151,56 @@
       <article class="card">
         <div class="card-inner">
           <div class="eyebrow">AI Gear Coach</div>
-          <textarea class="field" id="gear-input"
-            placeholder="Describe your outfit — layers, jacket, gloves, hat, boots. Example: wool base layer, fleece, winter parka, jeans, winter boots, no gloves."></textarea>
+          <div class="gear-coach-wrap">
+            <textarea class="field" id="gear-input"
+              placeholder="Describe your outfit — layers, jacket, gloves, hat, boots. Example: wool base layer, fleece, winter parka, jeans, winter boots, no gloves."></textarea>
+            <div class="photo-preview" id="photo-preview">
+              <img id="photo-thumb" src="" alt="outfit photo" />
+              <span class="photo-preview-label" id="photo-label">Photo attached — AI will read your outfit</span>
+              <button class="photo-remove" id="photo-remove" title="Remove photo">✕</button>
+            </div>
+            <div class="gear-coach-icons">
+              <button class="gear-icon-btn" id="btn-camera" title="Take a photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg>
+                Camera
+              </button>
+              <button class="gear-icon-btn" id="btn-gallery" title="Pick from gallery">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                Gallery
+              </button>
+              <button class="gear-icon-btn" id="btn-history" title="Recent outfits">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                History
+                <span class="history-badge" id="history-badge" style="display:none">0</span>
+              </button>
+            </div>
+          </div>
+          <!-- Hidden file inputs -->
+          <input type="file" id="input-camera" accept="image/*" capture="environment" style="display:none">
+          <input type="file" id="input-gallery" accept="image/*" style="display:none">
         </div>
       </article>
+
+      <!-- History bottom sheet -->
+      <div class="sheet-overlay" id="sheet-overlay"></div>
+      <div class="history-sheet" id="history-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Recent Outfits</div>
+        <div id="history-list"></div>
+      </div>
 
       <section id="results" class="results hidden">
 
@@ -1006,7 +1278,7 @@
   <script>
     const CONFIG = {
       OPENWEATHER_KEY: "8c5e72318d6d2455134f988b3da1e11c",
-      ANTHROPIC_KEY: "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",
+      ANTHROPIC_KEY: "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",
     };
 
     const LOCATIONS = [
@@ -1027,7 +1299,104 @@
     let selectedActivity = "stationary";
     let currentWeather = null;
     let timerInterval = null;
-    let lastAnalyzedClo = 1.5; // updated after each analysis
+    let lastAnalyzedClo = 1.5;
+    let currentPhotoB64 = null;
+    let currentPhotoURL = null;
+
+    // ── HISTORY ──────────────────────────────────────────────────────
+    const HISTORY_KEY = "ulko_history";
+    const HISTORY_MAX = 5;
+
+    function loadHistory() {
+      try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }
+      catch { return []; }
+    }
+
+    function saveToHistory(outfit, photoThumb) {
+      const items = loadHistory();
+      const filtered = items.filter(i => i.outfit !== outfit);
+      const entry = { outfit, photoThumb: photoThumb || null, ts: Date.now() };
+      filtered.unshift(entry);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(filtered.slice(0, HISTORY_MAX)));
+      updateHistoryBadge();
+    }
+
+    function updateHistoryBadge() {
+      const items = loadHistory();
+      const badge = $("history-badge");
+      if (items.length > 0) {
+        badge.textContent = items.length;
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+    }
+
+    function openHistorySheet() {
+            document.querySelector(".bottom-bar").style.display = "none";
+      const items = loadHistory();
+      const list = $("history-list");
+      if (items.length === 0) {
+        list.innerHTML = '<div class="history-empty">No recent outfits yet.<br>Your last 5 analyses will appear here.</div>';
+      } else {
+        list.innerHTML = items.map((item, idx) => `
+          <div class="history-item" data-idx="${idx}">
+            ${item.photoThumb
+            ? `<img class="history-thumb" src="${item.photoThumb}" alt="outfit">`
+            : `<div class="history-thumb-placeholder">&#128085;</div>`}
+            <div class="history-info">
+              <div class="history-outfit">${item.outfit}</div>
+              <div class="history-meta">${timeAgo(item.ts)}</div>
+            </div>
+            <span class="history-arrow">&#x203A;</span>
+          </div>
+        `).join("");
+        list.querySelectorAll(".history-item").forEach(el => {
+          el.addEventListener("click", () => {
+            const item = items[+el.dataset.idx];
+            $("gear-input").value = item.outfit;
+            if (item.photoThumb) {
+              $("photo-thumb").src = item.photoThumb;
+              $("photo-label").textContent = "Photo from history attached";
+              $("photo-preview").classList.add("visible");
+              currentPhotoB64 = item.photoThumb.split(",")[1] || null;
+            } else {
+              clearPhoto();
+            }
+            closeHistorySheet();
+            setTimeout(() => onAnalyze(), 120);
+          });
+        });
+      }
+      $("sheet-overlay").classList.add("open");
+      $("history-sheet").classList.add("open");
+    }
+
+    function closeHistorySheet() {
+      $("sheet-overlay").classList.remove("open");
+      $("history-sheet").classList.remove("open");
+      document.querySelector(".bottom-bar").style.display = "block";
+
+    }
+
+    function timeAgo(ts) {
+      const diff = Date.now() - ts;
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return "just now";
+      if (m < 60) return m + "m ago";
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + "h ago";
+      return Math.floor(h / 24) + "d ago";
+    }
+
+    function clearPhoto() {
+      currentPhotoB64 = null;
+      if (currentPhotoURL) { URL.revokeObjectURL(currentPhotoURL); currentPhotoURL = null; }
+      $("photo-preview").classList.remove("visible");
+      $("photo-thumb").src = "";
+      $("input-camera").value = "";
+      $("input-gallery").value = "";
+    }
 
 
     const $ = id => document.getElementById(id);
@@ -1038,6 +1407,95 @@
       setupActivities();
       fetchWeather();
       $("analyze-btn").addEventListener("click", onAnalyze);
+      updateHistoryBadge();
+
+      // Photo buttons
+      $("btn-camera").addEventListener("click", () => $("input-camera").click());
+      $("btn-gallery").addEventListener("click", () => $("input-gallery").click());
+      $("input-camera").addEventListener("change", e => handlePhotoFile(e.target.files[0]));
+      $("input-gallery").addEventListener("change", e => handlePhotoFile(e.target.files[0]));
+      $("photo-remove").addEventListener("click", clearPhoto);
+
+      // History sheet
+      $("btn-history").addEventListener("click", openHistorySheet);
+      $("sheet-overlay").addEventListener("click", closeHistorySheet);
+    }
+
+    // ── PHOTO HANDLING ────────────────────────────────────────────────
+    async function handlePhotoFile(file) {
+      if (!file) return;
+      if (currentPhotoURL) URL.revokeObjectURL(currentPhotoURL);
+      currentPhotoURL = URL.createObjectURL(file);
+      $("photo-thumb").src = currentPhotoURL;
+      $("photo-label").textContent = "Detecting clothing...";
+      $("photo-preview").classList.add("visible");
+      $("gear-input").value = "";
+      $("gear-input").placeholder = "Detecting clothing from photo...";
+
+      // Determine correct media type
+      let mediaType = file.type || "image/jpeg";
+      // Claude supports jpeg, png, gif, webp — convert unsupported types label to jpeg
+      if (!["image/jpeg", "image/png", "image/gif", "image/webp"].includes(mediaType)) {
+        mediaType = "image/jpeg";
+      }
+
+      const reader = new FileReader();
+      reader.onload = async e => {
+        currentPhotoB64 = e.target.result.split(",")[1];
+
+        try {
+          const res = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": CONFIG.ANTHROPIC_KEY,
+              "anthropic-version": "2023-06-01",
+              "anthropic-dangerous-direct-browser-access": "true",
+            },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 200,
+              system: "You identify clothing items in photos. List only the visible clothing items as a short comma-separated list. Focus on the type and material of each item, not the color (e.g. 'wool hat', 'hoodie', 'winter jacket'). If lower body is not visible, add the text LOWER_BODY_MISSING at the very end. Return only the clothing list, no other text.",
+              messages: [{
+                role: "user",
+                content: [
+                  { type: "image", source: { type: "base64", media_type: mediaType, data: currentPhotoB64 } },
+                  { type: "text", text: "List all visible clothing items on this person." }
+                ]
+              }],
+            }),
+          });
+
+          const data = await res.json();
+          console.log("Photo detection response:", res.status, JSON.stringify(data).slice(0, 300));
+          if (res.ok && data.content?.[0]?.text) {
+            let detected = data.content[0].text.trim();
+            const lowerBodyMissing = detected.includes("LOWER_BODY_MISSING");
+            detected = detected.replace("LOWER_BODY_MISSING", "").replace(/,\s*$/, "").trim();
+            $("gear-input").value = detected;
+            $("gear-input").placeholder = "Add anything missing, then tap Check my safety";
+            if (lowerBodyMissing) {
+              $("photo-label").innerHTML = "&#10003; Outfit detected<br><span style='font-size:0.7rem;opacity:0.7'>Lower body not visible. Please add trousers and footwear.</span>";
+              currentPhotoB64 = null; 
+            } else {
+              $("photo-label").textContent = "✓ Outfit detected. Add missing items then tap Check my safety";
+              currentPhotoB64 = null;
+            }
+          } else {
+            const errMsg = data?.error?.message || "unknown error";
+            console.warn("Photo detection failed:", errMsg);
+            $("gear-input").value = "";
+            $("gear-input").placeholder = "Describe your outfit manually...";
+            $("photo-label").textContent = "Could not read photo — " + errMsg.slice(0, 60);
+          }
+        } catch (err) {
+          console.error("Photo detection exception:", err);
+          $("gear-input").value = "";
+          $("gear-input").placeholder = "Describe your outfit manually...";
+          $("photo-label").textContent = "Could not read photo — please describe your outfit above";
+        }
+      };
+      reader.readAsDataURL(file);
     }
 
     function populateLocations() {
@@ -1210,34 +1668,48 @@
     }
     // Claude receives full context: weather + activity + outfit
     // and returns: clo, summary, gaps, risk_level, safe_minutes
-    async function analyzeWithClaude(outfit, weather, activity) {
+    async function analyzeWithClaude(outfit, weather, activity, photoB64) {
       const w = weather;
       const vKmh = w.wind * 3.6;
       const v016 = Math.pow(Math.max(vKmh, 0.1), 0.16);
       const wc = 13.12 + 0.6215 * w.temp - 11.37 * v016 + 0.3965 * w.temp * v016;
       const windChill = (w.temp < 10 && vKmh > 3) ? wc : w.temp;
 
-      const prompt = `Current conditions at ${selectedLocation.name}:
+      const conditionsText = `Current conditions at ${selectedLocation.name}:
 - Air temperature: ${w.temp.toFixed(1)}°C
 - Wind: ${w.wind.toFixed(1)} m/s (${vKmh.toFixed(1)} km/h)
 - Humidity: ${w.humidity}%
 - Wind chill: ${windChill.toFixed(1)}°C
-- Activity: ${ACTIVITY_LABELS[activity]}
+- Activity: ${ACTIVITY_LABELS[activity]}`;
 
-Outfit description: "${outfit}"
-
-Assess this outfit for these exact conditions. Be calibrated — ${w.temp.toFixed(1)}°C is ${w.temp > 5 ? "mild cold, not extreme" : w.temp > -5 ? "moderately cold" : w.temp > -15 ? "seriously cold" : "severely cold"}. Do not overstate risk for mild conditions or understate it for serious ones.
-
-Return ONLY valid JSON, no markdown, no preamble:
+      const jsonSchema = `Return ONLY valid JSON, no markdown, no preamble:
 {
-  "clo": number (0.0–4.0, thermal insulation of the described outfit),
-  "summary": "1-2 sentences calibrated to the actual temperature — mention specific conditions like wind or humidity only if they are genuinely significant",
-  "gaps": "specific unprotected body areas and their realistic impact at ${w.temp.toFixed(1)}°C, or empty string if fully adequate",
+  "clo": number (0.0-4.0, thermal insulation of the described outfit),
+  "outfit_description": "comma-separated list of clothing items identified (only when analyzing a photo)",
+  "summary": "1-2 sentences calibrated to the actual temperature",
+  "gaps": "specific unprotected body areas at ${w.temp.toFixed(1)}C, or empty string if adequate",
   "risk_level": "Low" | "Moderate" | "High" | "Extreme",
-  "safe_minutes": number (realistic safe outdoor exposure time in minutes for this exact outfit + conditions + activity, use 999 for effectively unlimited),
-  "recommendation": "the single most impactful clothing item to add or change that would improve safety — include estimated new safe time and new risk level, or empty string if already well protected",
-  "is_valid_outfit": true or false (false if the input does not describe clothing)
+  "safe_minutes": number (use 999 for effectively unlimited),
+  "recommendation": "recommendation": "list the 2-3 most critical missing items in priority order starting with most urgent — mention specific body areas at risk and estimate new safe time if all added, or empty string if well protected",
+  "is_valid_outfit": true or false
 }`;
+
+      // Build message content — image or text
+      let userContent;
+      if (photoB64) {
+        userContent = [
+          {
+            type: "image",
+            source: { type: "base64", media_type: "image/jpeg", data: photoB64 }
+          },
+          {
+            type: "text",
+            text: conditionsText + "\n\nLook at this photo and identify every visible clothing item the person is wearing. Then assess their cold-weather safety for the conditions above.\n\n" + jsonSchema
+          }
+        ];
+      } else {
+        userContent = conditionsText + `\n\nOutfit description: "${outfit}"\n\nAssess this outfit. Be calibrated — ${w.temp.toFixed(1)}°C is ${w.temp > 5 ? "mild cold, not extreme" : w.temp > -5 ? "moderately cold" : w.temp > -15 ? "seriously cold" : "severely cold"}.\n\n` + jsonSchema;
+      }
 
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -1251,8 +1723,8 @@ Return ONLY valid JSON, no markdown, no preamble:
           model: "claude-sonnet-4-20250514",
           max_tokens: 600,
           temperature: 0.1,
-          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. You do not overstate or understate risk. Always assume the person is wearing standard underwear and a basic t-shirt as a base layer, unless they say otherwise. If the input does not describe clothing at all (e.g. random words, objects, questions, gibberish), set is_valid_outfit to false and all other fields to defaults. Return only valid JSON.",
-          messages: [{ role: "user", content: prompt }],
+          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. Always assume standard underwear and a basic t-shirt as base layer. When multiple body areas are unprotected, prioritize recommendations by heat loss impact: legs and feet first in freezing conditions (large surface area, rapid heat loss), then hands, then head. If analyzing a photo, identify all visible clothing items. If input is not clothing-related, set is_valid_outfit to false. Return only valid JSON.",
+          messages: [{ role: "user", content: userContent }],
         }),
       });
 
@@ -1290,7 +1762,7 @@ Return ONLY valid JSON, no markdown, no preamble:
       let aiResult = null;
 
       try {
-        aiResult = await analyzeWithClaude(outfit, currentWeather, selectedActivity);
+        aiResult = await analyzeWithClaude(outfit, currentWeather, selectedActivity, currentPhotoB64);
       } catch (err) {
         console.warn("Claude API failed, using local fallback:", err);
       }
@@ -1298,7 +1770,7 @@ Return ONLY valid JSON, no markdown, no preamble:
         if (aiResult.is_valid_outfit === false) {
           return {
             gear: {
-              summary: "That doesn't look like a clothing description. Please describe what you're actually wearing — jacket, trousers, boots, gloves, etc.",
+              summary: "That doesn't look like a clothing description. Please describe what you're actually wearing such as: jacket, trousers, boots, gloves, etc.",
               gaps: "",
               recommendation: "",
               invalid: true,
@@ -1318,6 +1790,11 @@ Return ONLY valid JSON, no markdown, no preamble:
         const tier = tierFromMinutes(cappedMinutes);
         const shap = computeShap(currentWeather, aiResult.clo, selectedActivity);
         lastAnalyzedClo = aiResult.clo;
+        // If photo was used, fill text area with detected outfit
+        if (currentPhotoB64 && aiResult.outfit_description) {
+          $("gear-input").value = aiResult.outfit_description;
+          $("photo-label").textContent = "Outfit detected from photo";
+        }
         return {
           gear: {
             summary: aiResult.summary,
@@ -1340,7 +1817,7 @@ Return ONLY valid JSON, no markdown, no preamble:
         const summary = local.clo >= 2.2
           ? `Your outfit provides solid insulation for ${tempDesc}.`
           : local.clo >= 1.2
-            ? `Your outfit offers partial protection — adequate for short exposure in ${tempDesc}.`
+            ? `Your outfit offers partial protection which is adequate for short exposure in ${tempDesc}.`
             : `Your outfit offers minimal insulation and will lose heat quickly in ${tempDesc}.`;
         lastAnalyzedClo = local.clo;
         window._forecastCalibration = 1.0; // no AI adjustment when using fallback
@@ -1392,7 +1869,7 @@ Return ONLY valid JSON, no markdown, no preamble:
       }
       const recEl = $("gear-recommendation");
       const rec = gear.recommendation ||
-        (risk.tier.cls !== "low" ? "Add more insulating layers — a warm jacket, long trousers, gloves, and a hat would significantly extend your safe outdoor time." : "");
+        (risk.tier.cls !== "low" ? "Add more insulating layers: a warm jacket, long trousers, gloves, and a hat would significantly extend your safe outdoor time." : "");
       if (rec) {
         recEl.textContent = rec;
         recEl.style.display = "block";
@@ -1625,7 +2102,13 @@ Return ONLY valid JSON, no markdown, no preamble:
     </div>`).join("");
 
       const bestLabel = best.isNow ? "Right now" : best.hour;
-      const bestLine = `<div class="window-best">Best window: <strong>${bestLabel}</strong> — ${best.level} risk at ${best.temp}°C</div>`;
+      let dayLabel = "";
+      if (!best.isNow) {
+        const bestHourNum = parseInt(best.hour);
+        const nowHourNum = new Date().getHours();
+        dayLabel = bestHourNum <= nowHourNum ? " [tomorrow]" : " [today]";
+      }
+      const bestLine = `<div class="window-best">Best window: <strong>${bestLabel}${dayLabel}</strong>: ${best.level} risk at ${best.temp}°C</div>`;
       $("window-content").innerHTML = `
     ${rowsHTML}
     ${bestLine}
@@ -1636,10 +2119,14 @@ Return ONLY valid JSON, no markdown, no preamble:
     // ── SUBMIT ────────────────────────────────────────────────────────
     async function onAnalyze() {
       const outfit = $("gear-input").value.trim();
-      if (!outfit) { alert("Please describe your outfit first."); return; }
+      const hasPhoto = !!currentPhotoB64;
+
+      // Require either text or photo
+      if (!outfit && !hasPhoto) { alert("Please describe your outfit or attach a photo."); return; }
       if (!currentWeather) { alert("Weather data not ready yet — please wait a moment."); return; }
 
-      if (!looksLikeClothing(outfit)) {
+      // Only run text validation if no photo attached
+      if (!hasPhoto && !looksLikeClothing(outfit)) {
         const { gear: invalidGear } = {
           gear: {
             summary: "That doesn't look like a clothing description. Please describe what you're actually wearing — jacket, trousers, boots, gloves, hat, etc.",
@@ -1661,12 +2148,18 @@ Return ONLY valid JSON, no markdown, no preamble:
       try {
         const { gear, risk } = await runAnalysis(outfit);
         renderResults(gear, risk);
+        if (risk) {
+          const outfitText = $("gear-input").value.trim() || outfit;
+          const thumb = currentPhotoB64 ? $("photo-thumb").src : null;
+          saveToHistory(outfitText, thumb);
+        }
       } catch (err) {
         console.error(err);
         alert("Something went wrong. Check the browser console.");
       } finally {
         btn.disabled = false;
         btn.textContent = "Check my safety";
+        $("gear-input").placeholder = "Describe your outfit — layers, jacket, gloves, hat, boots. Example: wool base layer, fleece, winter parka, jeans, winter boots, no gloves.";
       }
     }
 
