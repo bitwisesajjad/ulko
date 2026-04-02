@@ -1,7 +1,4 @@
 .env
-*.env.local
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-.env.example
+.env.local
+node_modules/
+.netlify/
