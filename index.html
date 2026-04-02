@@ -1710,8 +1710,7 @@
   "gaps": "specific unprotected body areas at ${w.temp.toFixed(1)}C, or empty string if adequate",
   "risk_level": "Low" | "Moderate" | "High" | "Extreme",
   "safe_minutes": number (use 999 for effectively unlimited),
-  "recommendation": "list the 2-3 most critical missing items in priority order starting with most urgent — mention specific body areas at risk and estimate new safe time if all added, or empty string if well protected",
-  "is_valid_outfit": true or false
+  "recommendation": "list exactly 2 most critical missing items as bullet points using • symbol, one per line, no word 'insulated', focus on item type and body area at risk (e.g. '• winter boots and wool socks (feet at highest frostbite risk)'). End with a new line: 'Safe time extends to at least X minutes.' where X is 70% of your estimated improvement. Empty string if already well protected.",  "is_valid_outfit": true or false
 }`;
 
       // Build message content — image or text
