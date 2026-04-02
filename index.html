@@ -1665,6 +1665,7 @@
 
     // ── CLIENT-SIDE CLOTHING VALIDATION ──────────────────────────────
     function looksLikeClothing(text) {
+      if (!text || typeof text !== "string") return false;
       const t = text.toLowerCase();
       const clothingKeywords = [
         // Garments
@@ -1709,7 +1710,7 @@
   "gaps": "specific unprotected body areas at ${w.temp.toFixed(1)}C, or empty string if adequate",
   "risk_level": "Low" | "Moderate" | "High" | "Extreme",
   "safe_minutes": number (use 999 for effectively unlimited),
-  "recommendation": "recommendation": "list the 2-3 most critical missing items in priority order starting with most urgent — mention specific body areas at risk and estimate new safe time if all added, or empty string if well protected",
+  "recommendation": "list the 2-3 most critical missing items in priority order starting with most urgent — mention specific body areas at risk and estimate new safe time if all added, or empty string if well protected",
   "is_valid_outfit": true or false
 }`;
 
@@ -1863,6 +1864,8 @@
         $("timer-start-btn").style.display = "none";
         $("share-btn").style.display = "none";
         $("window-content").innerHTML = "";
+        $("analyze-btn").disabled = false;
+        $("analyze-btn").textContent = "Check my safety";
         return;
       }
 
