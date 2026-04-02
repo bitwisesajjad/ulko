@@ -1278,7 +1278,7 @@
   <script>
     const CONFIG = {
       OPENWEATHER_KEY: "8c5e72318d6d2455134f988b3da1e11c",
-      // ANTHROPIC_KEY is handled server-side by Netlify
+      // ANTHROPIC_KEY handled server-side by Netlify
     };
 
     const LOCATIONS = [
@@ -1364,7 +1364,7 @@
               clearPhoto();
             }
             closeHistorySheet();
-            setTimeout(() => onAnalyze(), 120);
+            setTimeout(() => onAnalyze(item.outfit), 120);
           });
         });
       }
@@ -1422,6 +1422,26 @@
     }
 
     // ── PHOTO HANDLING ────────────────────────────────────────────────
+    // ── IMAGE COMPRESSION ─────────────────────────────────────────────
+    function compressImage(dataUrl, maxWidth, quality) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let w = img.width, h = img.height;
+          if (w > maxWidth) {
+            h = Math.round(h * maxWidth / w);
+            w = maxWidth;
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.src = dataUrl;
+      });
+    }
+
     async function handlePhotoFile(file) {
       if (!file) return;
       if (currentPhotoURL) URL.revokeObjectURL(currentPhotoURL);
@@ -1441,7 +1461,9 @@
 
       const reader = new FileReader();
       reader.onload = async e => {
-        currentPhotoB64 = e.target.result.split(",")[1];
+        // Compress image to max 1200px / 70% quality before sending
+        const compressed = await compressImage(e.target.result, 1200, 0.7);
+        currentPhotoB64 = compressed.split(",")[1];
 
         try {
           const res = await fetch("/.netlify/functions/claude", {
@@ -2111,8 +2133,8 @@
     }
 
     // ── SUBMIT ────────────────────────────────────────────────────────
-    async function onAnalyze() {
-      const outfit = $("gear-input").value.trim();
+    async function onAnalyze(forcedOutfit) {
+      const outfit = forcedOutfit || $("gear-input").value.trim();
       const hasPhoto = !!currentPhotoB64;
 
       // Require either text or photo
