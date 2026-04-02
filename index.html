@@ -47,19 +47,21 @@
       min-height: 100vh;
       color: var(--text);
       font-family: Inter, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.12), transparent 28%),
-        radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.08), transparent 28%),
-        linear-gradient(180deg, #071018 0%, #09121c 48%, #081018 100%);
+      background: #dde6ed;
       overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
 
-    body::before {
+    body::before { display: none; }
+
+    .app::before {
       content: "";
-      position: fixed;
+      position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(120deg, transparent 0%, rgba(125, 211, 252, 0.03) 35%, transparent 70%);
+      background: linear-gradient(120deg, transparent 0%, rgba(125,211,252,0.03) 35%, transparent 70%);
       animation: aurora 12s ease-in-out infinite alternate;
       z-index: 0;
     }
@@ -80,8 +82,15 @@
       position: relative;
       z-index: 1;
       width: min(100%, 480px);
+      min-width: 380px;
       margin: 0 auto;
       padding: 18px 16px calc(112px + var(--safe-bottom));
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56,189,248,0.12), transparent 28%),
+        radial-gradient(circle at 90% 100%, rgba(45,212,191,0.08), transparent 28%),
+        linear-gradient(180deg, #071018 0%, #09121c 48%, #081018 100%);
+      min-height: 100vh;
+      box-shadow: 0 0 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(125,211,252,0.06);
     }
 
     .topbar {
@@ -1269,7 +1278,7 @@
   <script>
     const CONFIG = {
       OPENWEATHER_KEY: "8c5e72318d6d2455134f988b3da1e11c",
-      // ANTHROPIC_KEY is handled server-side by Netlify function
+      // ANTHROPIC_KEY is handled server-side by Netlify
     };
 
     const LOCATIONS = [
@@ -1366,7 +1375,7 @@
     function closeHistorySheet() {
       $("sheet-overlay").classList.remove("open");
       $("history-sheet").classList.remove("open");
-      document.querySelector(".bottom-bar").style.display = "none";
+      document.querySelector(".bottom-bar").style.display = "block";
 
     }
 
@@ -1678,7 +1687,7 @@
   "gaps": "specific unprotected body areas at ${w.temp.toFixed(1)}C, or empty string if adequate",
   "risk_level": "Low" | "Moderate" | "High" | "Extreme",
   "safe_minutes": number (use 999 for effectively unlimited),
-  "recommendation": "single most impactful item to add, or empty string if well protected",
+  "recommendation": "recommendation": "list the 2-3 most critical missing items in priority order starting with most urgent — mention specific body areas at risk and estimate new safe time if all added, or empty string if well protected",
   "is_valid_outfit": true or false
 }`;
 
@@ -1708,7 +1717,7 @@
           model: "claude-sonnet-4-20250514",
           max_tokens: 600,
           temperature: 0.1,
-          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. Always assume standard underwear and a basic t-shirt as base layer. If analyzing a photo, identify all visible clothing items. If input is not clothing-related, set is_valid_outfit to false. Return only valid JSON.",
+          system: "You are a cold-weather physiologist and clothing expert. You give precise, calibrated safety assessments. Always assume standard underwear and a basic t-shirt as base layer. When multiple body areas are unprotected, prioritize recommendations by heat loss impact: legs and feet first in freezing conditions (large surface area, rapid heat loss), then hands, then head. If analyzing a photo, identify all visible clothing items. If input is not clothing-related, set is_valid_outfit to false. Return only valid JSON.",
           messages: [{ role: "user", content: userContent }],
         }),
       });

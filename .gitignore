@@ -2,3 +2,6 @@
 .env.local
 node_modules/
 .netlify/
+index_emergency.html
+.DS_Store
+.gitignore
